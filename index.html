@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FinalX.AI — Viral Content Generator for Creators</title>
+<meta name="description" content="AI-powered content generator for USA & UK creators. Generate Instagram captions, TikTok hooks, YouTube scripts & more in seconds." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --p: #6D28D9;
+    --p2: #7C3AED;
+    --p3: #8B5CF6;
+    --acc: #10B981;
+    --acc2: #2DD4BF;
+    --bg: #FAFAF9;
+    --card: #FFFFFF;
+    --border: #E8E4F0;
+    --text: #1C1530;
+    --muted: #6B7280;
+    --light: #F5F3FF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,249,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1.5px solid var(--border);
+    padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-box {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--p), var(--acc2));
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 900; color: #fff;
+  }
+  .logo-text { font-size: 18px; font-weight: 800; color: var(--text); }
+  .logo-text span { color: var(--p2); }
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .nav-badge {
+    background: var(--light); color: var(--p2);
+    font-size: 11px; font-weight: 700;
+    padding: 5px 13px; border-radius: 20px;
+    border: 1.5px solid #DDD6FE;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 60px 24px 40px;
+    text-align: center;
+    background: linear-gradient(180deg, #F0EBFF 0%, var(--bg) 100%);
+  }
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fff; border: 1.5px solid #DDD6FE;
+    border-radius: 20px; padding: 6px 14px;
+    font-size: 11px; font-weight: 600; color: var(--p2);
+    margin-bottom: 20px;
+  }
+  .hero-dot {
+    width: 7px; height: 7px;
+    background: var(--acc);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.6} }
+  .hero h1 {
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 900; line-height: 1.15;
+    color: var(--text); margin-bottom: 14px;
+    letter-spacing: -1px;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(135deg, var(--p), var(--acc2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 15px; color: var(--muted);
+    max-width: 480px; margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+  .hero-flags {
+    display: flex; justify-content: center; gap: 8px; margin-bottom: 10px;
+  }
+  .flag-chip {
+    background: #fff; border: 1.5px solid var(--border);
+    border-radius: 20px; padding: 5px 13px;
+    font-size: 12px; font-weight: 600; color: var(--text);
+  }
+
+  /* ── MAIN APP ── */
+  .app-wrap {
+    max-width: 680px; margin: 0 auto;
+    padding: 30px 20px 50px;
+  }
+
+  /* Step label */
+  .step-lbl {
+    font-size: 11px; font-weight: 700;
+    color: var(--p2); text-transform: uppercase;
+    letter-spacing: 1.2px;
+    background: var(--light); border: 1.5px solid #DDD6FE;
+    padding: 5px 12px; border-radius: 6px;
+    display: inline-block; margin-bottom: 12px;
+  }
+
+  /* Tool grid */
+  .tool-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-bottom: 24px;
+  }
+  .tool-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 14px; padding: 14px 8px;
+    text-align: center; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tool-card:hover { border-color: #C4B5FD; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(109,40,217,0.1); }
+  .tool-card.active { border-color: var(--p2); background: var(--light); box-shadow: 0 4px 20px rgba(109,40,217,0.15); }
+  .tc-icon { font-size: 22px; margin-bottom: 6px; }
+  .tc-name { font-size: 11px; font-weight: 700; color: var(--text); }
+  .tool-card.active .tc-name { color: var(--p2); }
+  .tc-earn { font-size: 9px; color: var(--acc); font-weight: 600; margin-top: 2px; }
+
+  /* Input card */
+  .input-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .input-card:focus-within { border-color: var(--p2); box-shadow: 0 0 0 4px rgba(109,40,217,0.08); }
+  .input-top {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .input-top span { font-size: 16px; color: var(--muted); }
+  .input-top input {
+    flex: 1; border: none; outline: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px; color: var(--text); font-weight: 500;
+    background: transparent;
+  }
+  .input-top input::placeholder { color: #C4C4D0; font-weight: 400; }
+  .tone-wrap {
+    display: flex; gap: 7px; padding: 11px 16px;
+    flex-wrap: wrap; align-items: center;
+  }
+  .tone-lbl { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .tone-chip {
+    background: #F9F8FF; border: 1.5px solid var(--border);
+    border-radius: 20px; padding: 5px 13px;
+    font-size: 11px; font-weight: 600; color: var(--muted);
+    cursor: pointer; transition: all 0.15s;
+    font-family: 'Outfit', sans-serif;
+  }
+  .tone-chip:hover { border-color: #C4B5FD; color: var(--p2); }
+  .tone-chip.active { background: var(--light); border-color: var(--p2); color: var(--p2); }
+
+  /* Generate button */
+  .gen-btn {
+    width: 100%; padding: 17px;
+    background: linear-gradient(135deg, var(--p) 0%, var(--p3) 50%, var(--acc2) 100%);
+    border: none; border-radius: 14px;
+    color: #fff; font-family: 'Outfit', sans-serif;
+    font-size: 15px; font-weight: 800;
+    cursor: pointer; letter-spacing: 0.3px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    box-shadow: 0 6px 24px rgba(109,40,217,0.35);
+    transition: all 0.2s;
+    margin-bottom: 18px;
+  }
+  .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(109,40,217,0.4); }
+  .gen-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* Result card */
+  .result-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .result-head {
+    background: #FAFAF9; padding: 12px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .result-lbl { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .result-actions { display: flex; gap: 7px; }
+  .r-btn {
+    background: #fff; border: 1.5px solid var(--border);
+    border-radius: 8px; padding: 6px 13px;
+    font-size: 11px; font-weight: 600; color: var(--p2);
+    cursor: pointer; font-family: 'Outfit', sans-serif;
+    transition: all 0.15s;
+  }
+  .r-btn:hover { background: var(--light); border-color: #C4B5FD; }
+  .result-body { padding: 18px; min-height: 140px; max-height: 320px; overflow-y: auto; }
+  .result-body::-webkit-scrollbar { width: 4px; }
+  .result-body::-webkit-scrollbar-thumb { background: #DDD6FE; border-radius: 10px; }
+  #outputText {
+    font-size: 14px; color: var(--text);
+    line-height: 1.9; white-space: pre-wrap;
+    font-family: 'Outfit', sans-serif;
+  }
+  #outputText.placeholder { color: #C4C4D0; font-style: italic; font-size: 13px; }
+  #outputText.error {
+    color: #DC2626; background: #FEF2F2;
+    border: 1.5px solid #FECACA;
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  /* Earn strip */
+  .earn-strip {
+    background: linear-gradient(135deg, #F0EBFF, #ECFDF5);
+    border: 2px solid #DDD6FE;
+    border-radius: 14px; padding: 16px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+  }
+  .earn-left h4 { font-size: 13px; font-weight: 700; color: var(--p); margin-bottom: 5px; }
+  .earn-left p { font-size: 11px; color: var(--muted); line-height: 1.8; }
+  .earn-left p strong { color: var(--acc); }
+  .earn-right { font-size: 28px; font-weight: 900; color: var(--p2); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1.5px solid var(--border);
+  }
+  footer span { color: var(--p2); font-weight: 700; }
+
+  /* Spinner */
+  .spin { display: inline-block; animation: rot 0.8s linear infinite; }
+  @keyframes rot { to { transform: rotate(360deg); } }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    .tool-grid { grid-template-columns: repeat(4, 1fr); gap: 7px; }
+    .tc-name { font-size: 10px; }
+    .tc-icon { font-size: 18px; }
+    nav { padding: 12px 16px; }
+    .hero { padding: 40px 16px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <div class="logo-box">F</div>
+    <div class="logo-text">Final<span>X</span>.AI</div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-badge">✦ Free to Use</div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-pill">
+    <div class="hero-dot"></div>
+    AI-Powered Content Studio
+  </div>
+  <h1>Create Content That<br><span class="grad">Goes Viral ✦</span></h1>
+  <p>Generate Instagram captions, TikTok hooks, YouTube scripts & more — in seconds. Built for creators who want results.</p>
+  <div class="hero-flags">
+    <div class="flag-chip">🇺🇸 USA</div>
+    <div class="flag-chip">🇬🇧 UK</div>
+    <div class="flag-chip">🌍 Worldwide</div>
+  </div>
+</div>
+
+<div class="app-wrap">
+
+  <div class="step-lbl">① Choose Content Type</div>
+  <div class="tool-grid">
+    <div class="tool-card active" onclick="setTool(this,'ig','Instagram Caption')">
+      <div class="tc-icon">📸</div>
+      <div class="tc-name">Instagram</div>
+      <div class="tc-earn">$15–50</div>
+    </div>
+    <div class="tool-card" onclick="setTool(this,'tt','TikTok Hook Script')">
+      <div class="tc-icon">🎵</div>
+      <div class="tc-name">TikTok</div>
+      <div class="tc-earn">$20–80</div>
+    </div>
+    <div class="tool-card" onclick="setTool(this,'yt','YouTube Intro Script')">
+      <div class="tc-icon">▶️</div>
+      <div class="tc-name">YouTube</div>
+      <div class="tc-earn">$50–200</div>
+    </div>
+    <div class="tool-card" onclick="setTool(this,'tw','Twitter/X Thread')">
+      <div class="tc-icon">𝕏</div>
+      <div class="tc-name">X Thread</div>
+      <div class="tc-earn">$25–100</div>
+    </div>
+    <div class="tool-card" onclick="setTool(this,'em','Email Newsletter')">
+      <div class="tc-icon">📧</div>
+      <div class="tc-name">Email</div>
+      <div class="tc-earn">$75–300</div>
+    </div>
+    <div class="tool-card" onclick="setTool(this,'ad','Facebook Ad Copy')">
+      <div class="tc-icon">📢</div>
+      <div class="tc-name">Ad Copy</div>
+      <div class="tc-earn">$100–500</div>
+    </div>
+    <div class="tool-card" onclick="setTool(this,'bi','Creator Bio')">
+      <div class="tc-icon">👤</div>
+      <div class="tc-name">Bio</div>
+      <div class="tc-earn">$25–75</div>
+    </div>
+    <div class="tool-card" onclick="setTool(this,'bl','SEO Blog Post')">
+      <div class="tc-icon">✍️</div>
+      <div class="tc-name">Blog SEO</div>
+      <div class="tc-earn">$50–300</div>
+    </div>
+  </div>
+
+  <div class="step-lbl">② Write Your Topic</div>
+  <div class="input-card">
+    <div class="input-top">
+      <span>✏️</span>
+      <input type="text" id="topicInput" placeholder="e.g. morning workout tips, how to save money, healthy recipes..." />
+    </div>
+    <div class="tone-wrap">
+      <span class="tone-lbl">Tone →</span>
+      <div class="tone-chip active" onclick="setTone(this,'casual and friendly')">😊 Casual</div>
+      <div class="tone-chip" onclick="setTone(this,'hype, energetic, viral')">🔥 Hype</div>
+      <div class="tone-chip" onclick="setTone(this,'professional')">💼 Pro</div>
+      <div class="tone-chip" onclick="setTone(this,'funny and witty')">😄 Funny</div>
+      <div class="tone-chip" onclick="setTone(this,'educational and informative')">📚 Edu</div>
+    </div>
+  </div>
+
+  <button class="gen-btn" id="genBtn" onclick="generate()">
+    <span id="genIcon">⚡</span>
+    <span id="genText">③ Generate with FinalX.AI — FREE</span>
+  </button>
+
+  <div class="result-card">
+    <div class="result-head">
+      <span class="result-lbl" id="resultLabel">Output</span>
+      <div class="result-actions">
+        <button class="r-btn" onclick="regenerate()">↻ Redo</button>
+        <button class="r-btn" id="copyBtn" onclick="copyOutput()">📋 Copy</button>
+      </div>
+    </div>
+    <div class="result-body">
+      <div id="outputText" class="placeholder">Your USA/UK optimized content will appear here after you click Generate ⚡</div>
+    </div>
+  </div>
+
+  <div class="earn-strip">
+    <div class="earn-left">
+      <h4>💰 Turn This Into Income</h4>
+      <p>
+        Sell on Fiverr · Instagram Caption = <strong>$15–50/order</strong><br>
+        YouTube Script = <strong>$50–200/order</strong><br>
+        500 Pro users × $9/mo = <strong>$4,500/month 🚀</strong>
+      </p>
+    </div>
+    <div class="earn-right">$$$</div>
+  </div>
+
+</div>
+
+<footer>
+  Made with ❤️ · <span>FinalX.AI</span> · Powered by Claude AI · © 2025
+</footer>
+
+<script>
+  let currentTool = 'ig';
+  let currentToolName = 'Instagram Caption';
+  let currentTone = 'casual and friendly';
+
+  const prompts = {
+    ig: (t, to) => `Write an engaging Instagram caption for USA/UK audience about: "${t}". Tone: ${to}. Include 12 relevant hashtags at the end on a new line. Add 2-3 emojis naturally in the caption. Make it authentic, viral-worthy, and platform-native.`,
+    tt: (t, to) => `Write a viral TikTok video script for USA/UK audience about: "${t}". Tone: ${to}. Include: 1) A scroll-stopping 3-second hook, 2) Main content outline (45 seconds), 3) Strong CTA ending. Sound natural and trendy.`,
+    yt: (t, to) => `Write a YouTube video intro script (60 seconds) for USA/UK audience about: "${t}". Tone: ${to}. Include hook question, what viewers will learn, subscribe CTA. Also provide: SEO-optimized title, video description (100 words), and 8 tags.`,
+    tw: (t, to) => `Write a viral Twitter/X thread for USA/UK audience about: "${t}". Tone: ${to}. Format: 7 tweets numbered 1/7 to 7/7. First tweet = powerful hook. Last tweet = CTA. Max 240 chars each. Make it valuable and shareable.`,
+    em: (t, to) => `Write a high-converting email newsletter for USA/UK audience about: "${t}". Tone: ${to}. Include: Subject line (under 50 chars), Preview text, Opening hook, Main body (3 sections), CTA button text, P.S. line.`,
+    ad: (t, to) => `Write Facebook/Instagram ad copy for USA/UK market: "${t}". Tone: ${to}. Provide: Short version (25 words with headline + CTA), Medium version (50 words with headline + CTA), Long version (100 words with headline + CTA).`,
+    bi: (t, to) => `Write optimized social media bios for USA/UK creator/brand: "${t}". Tone: ${to}. Provide: Instagram bio (150 chars with line breaks + CTA link placeholder), Twitter/X bio (160 chars), LinkedIn headline (120 chars) + summary (200 words).`,
+    bl: (t, to) => `Write an SEO-optimized blog post structure for USA/UK audience about: "${t}". Tone: ${to}. Include: SEO Title (60 chars), Meta description (155 chars), 10 target keywords, Full H2/H3 outline, Introduction paragraph (150 words), Conclusion paragraph (80 words).`
+  };
+
+  function setTool(el, tool, name) {
+    document.querySelectorAll('.tool-card').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    currentTool = tool;
+    currentToolName = name;
+    document.getElementById('resultLabel').textContent = name + ' Output';
+  }
+
+  function setTone(el, tone) {
+    document.querySelectorAll('.tone-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    currentTone = tone;
+  }
+
+  async function generate() {
+    const topic = document.getElementById('topicInput').value.trim();
+    if (!topic) {
+      document.getElementById('topicInput').focus();
+      document.getElementById('topicInput').style.outline = '2px solid #EF4444';
+      setTimeout(() => document.getElementById('topicInput').style.outline = '', 1500);
+      return;
+    }
+
+    const btn = document.getElementById('genBtn');
+    btn.disabled = true;
+    document.getElementById('genIcon').innerHTML = '<span class="spin">⟳</span>';
+    document.getElementById('genText').textContent = 'Generating your content...';
+    document.getElementById('outputText').className = 'placeholder';
+    document.getElementById('outputText').textContent = 'AI is writing your content... (10–15 seconds)';
+
+    try {
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: prompts[currentTool](topic, currentTone) })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.error || 'API error ' + response.status);
+
+      document.getElementById('outputText').className = '';
+      document.getElementById('outputText').textContent = data.result;
+      document.getElementById('resultLabel').textContent = '✅ ' + currentToolName + ' Ready!';
+
+    } catch (err) {
+      document.getElementById('outputText').className = 'error';
+      document.getElementById('outputText').textContent = '⚠️ Error: ' + err.message + '\n\nMake sure your ANTHROPIC_API_KEY is set in Vercel environment variables.';
+    }
+
+    btn.disabled = false;
+    document.getElementById('genIcon').textContent = '⚡';
+    document.getElementById('genText').textContent = '③ Generate with FinalX.AI — FREE';
+  }
+
+  function regenerate() {
+    if (document.getElementById('topicInput').value.trim()) generate();
+  }
+
+  function copyOutput() {
+    const text = document.getElementById('outputText').textContent;
+    const out = document.getElementById('outputText');
+    if (out.classList.contains('placeholder') || out.classList.contains('error')) return;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => btn.textContent = '📋 Copy', 2000);
+    });
+  }
+
+  // Enter key support
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('topicInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') generate();
+    });
+  });
+</script>
+</body>
+</html>

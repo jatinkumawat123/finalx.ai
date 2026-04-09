@@ -1,0 +1,10 @@
+{
+  "name": "finalx-ai",
+  "version": "1.0.0",
+  "description": "FinalX.AI - Viral Content Generator for USA/UK Creators",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {}
+}
